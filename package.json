@@ -1,0 +1,18 @@
+{
+  "name": "voxelize-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/shaoruu/voxelize-example.git",
+  "author": "shaoruu <ian1314159@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.0"
+  }
+}
