@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "server": "cd server && cargo run"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
