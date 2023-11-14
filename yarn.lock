@@ -261,10 +261,10 @@
     typescript "^4.6.4"
     vitest "^0.10.4"
 
-"@voxelize/core@^0.1.138":
-  version "0.1.138"
-  resolved "https://registry.yarnpkg.com/@voxelize/core/-/core-0.1.138.tgz#e6c7b4bc492b3bd43f6a54d6fedddd9c4c545992"
-  integrity sha512-YwVG70nxsOypmL/JpODprT3L72gFie0pPKW+nTM59goXsh7BMU8dssBRAaM3rBwW4pZD68M4SdYLANRX+J2Jyg==
+"@voxelize/core@^0.1.140":
+  version "0.1.140"
+  resolved "https://registry.yarnpkg.com/@voxelize/core/-/core-0.1.140.tgz#a41ba42c697671516e4eb257d6b240335138934f"
+  integrity sha512-ax37W80RKdfPzLdlWpuwLiI2osekRo9w2QJhgqgZ3+IOX5si4WZTa9HqIlnnYo23CvZDUxGRkaMaC8QIifPJpg==
   dependencies:
     "@tweenjs/tween.js" "^18.6.4"
     "@voxelize/aabb" "*"
