@@ -46,6 +46,17 @@ renderer.setPixelRatio(window.devicePixelRatio || 1);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 /* -------------------------------------------------------------------------- */
+/*                             VISUAL IMPROVEMENTS                            */
+/* -------------------------------------------------------------------------- */
+const shadows = new VOXELIZE.Shadows(world);
+const lightShined = new VOXELIZE.LightShined(world);
+
+world.sky.paint('bottom', VOXELIZE.artFunctions.drawSun());
+world.sky.paint('top', VOXELIZE.artFunctions.drawStars());
+world.sky.paint('top', VOXELIZE.artFunctions.drawMoon());
+world.sky.paint('sides', VOXELIZE.artFunctions.drawStars());
+
+/* -------------------------------------------------------------------------- */
 /*                               PLAYER CONTROLS                              */
 /* -------------------------------------------------------------------------- */
 const inputs = new VOXELIZE.Inputs();
@@ -90,12 +101,41 @@ inputs.click('right', () => {
   world.updateVoxel(...voxel, holdingBlockType);
 });
 
+// Add a character to the control
+function createCharacter() {
+  const character = new VOXELIZE.Character();
+  world.add(character);
+  lightShined.add(character);
+  shadows.add(character);
+  return character;
+}
+
+const mainCharacter = createCharacter();
+rigidControls.attachCharacter(mainCharacter);
+
+// To change the perspective of the player
+const perspectives = new VOXELIZE.Perspective(rigidControls, world);
+perspectives.connect(inputs);
+
+/* -------------------------------------------------------------------------- */
+/*                           MULTIPLAYER CHARACTERS                           */
+/* -------------------------------------------------------------------------- */
+const peers = new VOXELIZE.Peers(rigidControls.object);
+
+peers.createPeer = createCharacter;
+
+peers.onPeerUpdate = (peer, data) => {
+  peer.set(data.position, data.direction);
+};
+
+world.add(peers);
+
 /* -------------------------------------------------------------------------- */
 /*                               NETWORK MANAGER                              */
 /* -------------------------------------------------------------------------- */
 const network = new VOXELIZE.Network();
 
-network.register(world);
+network.register(world).register(peers);
 
 const empty = new THREE.Vector3();
 
@@ -109,13 +149,18 @@ function animate() {
   network.sync();
 
   if (world.isInitialized) {
+    perspectives.update();
     voxelInteract.update();
     rigidControls.update();
+    lightShined.update();
+    shadows.update();
 
     world.update(
       rigidControls.object.position,
       camera.getWorldDirection(empty),
     );
+
+    peers.update();
   }
 
   renderer.render(world, camera);
