@@ -10,13 +10,11 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^3.2.3"
+    "vite": "^4.4.5"
   },
   "dependencies": {
-    "@babel/runtime": "^7.20.1",
-    "@voxelize/client": "^1.3.95",
-    "postprocessing": "^6.29.1",
-    "three": "^0.146.0",
-    "three-nebula": "^10.0.3"
+    "@voxelize/core": "^0.1.138",
+    "postprocessing": "^6.33.3",
+    "three": "^0.158.0"
   }
 }
