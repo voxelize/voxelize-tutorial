@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "server": "cargo watch -w src -x \"run --release\"",
+    "server": "cargo run --release",
+    "server:dev": "cargo watch -w src -x \"run --release\"",
     "build": "vite build",
     "preview": "vite preview"
   },
