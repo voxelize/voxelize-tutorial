@@ -45,6 +45,12 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio || 1);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
 /* -------------------------------------------------------------------------- */
 /*                             VISUAL IMPROVEMENTS                            */
 /* -------------------------------------------------------------------------- */
@@ -72,6 +78,9 @@ const rigidControls = new VOXELIZE.RigidControls(
 );
 
 rigidControls.connect(inputs);
+
+inputs.bind('g', rigidControls.toggleGhostMode);
+inputs.bind('f', rigidControls.toggleFly);
 
 // To add/remove blocks
 const voxelInteract = new VOXELIZE.VoxelInteract(camera, world, {
@@ -156,8 +165,8 @@ function animate() {
     shadows.update();
 
     world.update(
-      rigidControls.object.position,
-      camera.getWorldDirection(empty),
+      camera.getWorldPosition(new THREE.Vector3()),
+      camera.getWorldDirection(new THREE.Vector3()),
     );
 
     peers.update();

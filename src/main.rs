@@ -6,10 +6,7 @@ async fn main() -> std::io::Result<()> {
     let stone = Block::new("Stone").id(2).build();
     let grass_block = Block::new("Grass Block").id(3).build();
 
-    let config = WorldConfig::new()
-        .min_chunk([-1, -1])
-        .max_chunk([1, 1])
-        .build();
+    let config = WorldConfig::new().build();
 
     let mut world = World::new("tutorial", &config);
 
