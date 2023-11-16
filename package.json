@@ -14,7 +14,7 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
-    "@voxelize/core": "^0.1.138",
+    "@voxelize/core": "^0.1.145",
     "postprocessing": "^6.33.3",
     "three": "^0.158.0"
   }
