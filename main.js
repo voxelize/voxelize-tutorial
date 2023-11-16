@@ -1,7 +1,10 @@
 import './style.css';
 
 import * as VOXELIZE from '@voxelize/core';
+import { GUI } from 'lil-gui';
 import * as THREE from 'three';
+
+import '@voxelize/core/dist/styles.css';
 
 const canvas = document.getElementById('canvas');
 
@@ -12,18 +15,18 @@ const world = new VOXELIZE.World({
   textureUnitDimension: 16,
 });
 
-function applyBlockTextures() {
+async function applyBlockTextures() {
   const allFaces = ['px', 'nx', 'py', 'ny', 'pz', 'nz'];
 
-  world.applyBlockTexture('Dirt', allFaces, '/blocks/dirt.png');
-  world.applyBlockTexture('Stone', allFaces, '/blocks/stone.png');
-  world.applyBlockTexture(
+  await world.applyBlockTexture('Dirt', allFaces, '/blocks/dirt.png');
+  await world.applyBlockTexture('Stone', allFaces, '/blocks/stone.png');
+  await world.applyBlockTexture(
     'Grass Block',
     ['px', 'pz', 'nx', 'nz'],
     '/blocks/grass_side.png',
   );
-  world.applyBlockTexture('Grass Block', ['py'], '/blocks/grass_top.png');
-  world.applyBlockTexture('Grass Block', ['ny'], '/blocks/dirt.png');
+  await world.applyBlockTexture('Grass Block', ['py'], '/blocks/grass_top.png');
+  await world.applyBlockTexture('Grass Block', ['ny'], '/blocks/dirt.png');
 }
 
 /* -------------------------------------------------------------------------- */
@@ -33,7 +36,7 @@ const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
-  1000,
+  3000,
 );
 
 const renderer = new THREE.WebGLRenderer({
@@ -56,6 +59,57 @@ window.addEventListener('resize', () => {
 /* -------------------------------------------------------------------------- */
 const shadows = new VOXELIZE.Shadows(world);
 const lightShined = new VOXELIZE.LightShined(world);
+
+world.sky.setShadingPhases([
+  // start of sunrise
+  {
+    name: 'sunrise',
+    color: {
+      top: new THREE.Color('#7694CF'),
+      middle: new THREE.Color('#B0483A'),
+      bottom: new THREE.Color('#222'),
+    },
+    skyOffset: 0.05,
+    voidOffset: 0.6,
+    start: 0.2,
+  },
+  // end of sunrise
+  {
+    name: 'daylight',
+    color: {
+      top: new THREE.Color('#73A3FB'),
+      middle: new THREE.Color('#B1CCFD'),
+      bottom: new THREE.Color('#222'),
+    },
+    skyOffset: 0,
+    voidOffset: 0.6,
+    start: 0.25,
+  },
+  // start of sunset
+  {
+    name: 'sunset',
+    color: {
+      top: new THREE.Color('#A57A59'),
+      middle: new THREE.Color('#FC5935'),
+      bottom: new THREE.Color('#222'),
+    },
+    skyOffset: 0.05,
+    voidOffset: 0.6,
+    start: 0.7,
+  },
+  // end of sunset
+  {
+    name: 'night',
+    color: {
+      top: new THREE.Color('#000'),
+      middle: new THREE.Color('#000'),
+      bottom: new THREE.Color('#000'),
+    },
+    skyOffset: 0.1,
+    voidOffset: 0.6,
+    start: 0.75,
+  },
+]);
 
 world.sky.paint('bottom', VOXELIZE.artFunctions.drawSun());
 world.sky.paint('top', VOXELIZE.artFunctions.drawStars());
@@ -106,6 +160,7 @@ inputs.click('middle', () => {
 
 inputs.click('right', () => {
   if (!voxelInteract.potential) return;
+
   const { voxel } = voxelInteract.potential;
   world.updateVoxel(...voxel, holdingBlockType);
 });
@@ -140,13 +195,23 @@ peers.onPeerUpdate = (peer, data) => {
 world.add(peers);
 
 /* -------------------------------------------------------------------------- */
+/*                                  DEBUGGING                                 */
+/* -------------------------------------------------------------------------- */
+const debug = new VOXELIZE.Debug(document.body);
+
+debug.registerDisplay('Current time', world, 'time', (time) => time.toFixed(2));
+
+const gui = new GUI();
+gui.domElement.style.top = '10px';
+
+inputs.bind('j', debug.toggle);
+
+/* -------------------------------------------------------------------------- */
 /*                               NETWORK MANAGER                              */
 /* -------------------------------------------------------------------------- */
 const network = new VOXELIZE.Network();
 
 network.register(world).register(peers);
-
-const empty = new THREE.Vector3();
 
 /* -------------------------------------------------------------------------- */
 /*                               MAIN GAME LOOPS                              */
@@ -170,6 +235,7 @@ function animate() {
     );
 
     peers.update();
+    debug.update();
   }
 
   renderer.render(world, camera);
@@ -185,7 +251,13 @@ async function start() {
   await network.join('tutorial');
 
   await world.initialize();
-  applyBlockTextures();
+  await applyBlockTextures();
+
+  gui
+    .add({ time: world.time }, 'time', 0, world.options.timePerDay, 0.01)
+    .onFinishChange((time) => {
+      world.time = time;
+    });
 }
 
 start();

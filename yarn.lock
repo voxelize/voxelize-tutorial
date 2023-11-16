@@ -261,10 +261,10 @@
     typescript "^4.6.4"
     vitest "^0.10.4"
 
-"@voxelize/core@^0.1.140":
-  version "0.1.140"
-  resolved "https://registry.yarnpkg.com/@voxelize/core/-/core-0.1.140.tgz#a41ba42c697671516e4eb257d6b240335138934f"
-  integrity sha512-ax37W80RKdfPzLdlWpuwLiI2osekRo9w2QJhgqgZ3+IOX5si4WZTa9HqIlnnYo23CvZDUxGRkaMaC8QIifPJpg==
+"@voxelize/core@^0.1.145":
+  version "0.1.145"
+  resolved "https://registry.yarnpkg.com/@voxelize/core/-/core-0.1.145.tgz#838b413bb1ad59a81911fc3af77f7dda6bf1294d"
+  integrity sha512-C7J/2hdjAPTSaoU5jTwa7sCVDpFVnIKy2wio2YrqT8nFOFItFjnofzg4Xhwq4YlhaH2w/OWMnzjIreoWM8sK0Q==
   dependencies:
     "@tweenjs/tween.js" "^18.6.4"
     "@voxelize/aabb" "*"
@@ -900,6 +900,11 @@ jsonfn@^0.31.0:
   version "0.31.0"
   resolved "https://registry.yarnpkg.com/jsonfn/-/jsonfn-0.31.0.tgz#8cd09ee376d46df75c2c0de3c548a95dbb81dc8b"
   integrity sha512-plmFJ1RIM+FzpeRIRabarGCC39BOCTmrVzcjxqSL5bEAiHKhERSuyD3/yQfYvbTQk0k91yAkcAqwwqafmMzDKQ==
+
+lil-gui@^0.19.1:
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/lil-gui/-/lil-gui-0.19.1.tgz#5fb8fdb420afbf4d8fc7cbd0357a775e5dd9a484"
+  integrity sha512-9dbIg+UxS8RIROI6OH5gV2KrVE0Cn37bcLOQGF2GKN8ibTxDrUSLzzZfkQR82LnZsgs7DEZOOGfn3zhtd6hk0Q==
 
 lilconfig@^2.0.5:
   version "2.1.0"
