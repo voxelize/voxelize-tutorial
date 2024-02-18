@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=3000",
+    "dev": "vite",
     "server": "cargo run --release",
     "server:dev": "cargo watch -w src -x \"run --release\"",
     "build": "vite build",
