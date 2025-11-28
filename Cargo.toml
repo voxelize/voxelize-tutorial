@@ -4,6 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-voxelize = "0.8.58"
-actix-web = "4.4.0"
+voxelize = "1.0.0"
+actix-web = "4.5.1"
 specs = { version = "0.20.0", features = ["specs-derive", "serde"] }
