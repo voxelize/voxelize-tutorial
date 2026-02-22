@@ -16,6 +16,6 @@
   "dependencies": {
     "@voxelize/core": "^1.0.0",
     "postprocessing": "^6.35.0",
-    "three": "^0.165.0"
+    "three": "^0.183.0"
   }
 }
